@@ -114,7 +114,7 @@ class TutoManager extends Manager
         $offset = ($page * $parPage) - $parPage;
 
         // Requête
-        $sth = $dbh->prepare('SELECT * FROM tutos'.' OFFSET '.$offset . ' LIMIT 5');
+        $sth = $dbh->prepare('SELECT * FROM tutos'.'  LIMIT 5 OFFSET '.$offset);
         $sth->execute();
         $tutos = [];
 
