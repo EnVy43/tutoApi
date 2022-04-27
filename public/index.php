@@ -29,6 +29,52 @@ switch(true) {
 
         break;
 
+    case preg_match('#^tutos#', $uri) && $method == 'POST':
+
+        $controller = new tutoController();
+
+        return $controller->add();
+
+        break;
+
+    case preg_match('#^tutos/(\d+)$#', $uri, $matches) && $method == 'PATCH':
+
+        $id = $matches[1];
+
+        $controller = new tutoController();
+    
+        return $controller->update($id);
+    
+        break;
+
+    case preg_match('#^tutos/(\d+)$#', $uri, $matches) && $method == 'DELETE':
+
+        $id = $matches[1];
+    
+        $controller = new tutoController();
+        
+        return $controller->delete($id);
+        
+        break;
+
+    case preg_match('#^tutos/pages((\?)|$)#', $uri) && $method == 'GET':
+
+        
+        if (isset($_GET["page"]) && $_GET["page"] > 0) {
+            $page = $_GET["page"];
+
+            $controller = new tutoController();
+            return $controller->findByPage($page);
+        }
+        else 
+        {
+            http_response_code(404);
+    
+            echo json_encode('erreur 404000');
+        }
+    
+        break;
+        
     default:
     
     http_response_code(404);

@@ -37,7 +37,7 @@ class TutoManager extends Manager
         $dbh = static::connectDb();
 
         // Requête
-        $sth = $dbh->prepare('SELECT * FROM tutos');
+        $sth = $dbh->prepare('SELECT * FROM tutos ORDER BY createdAt ASC');
         $sth->execute();
 
         $tutos = [];
@@ -81,14 +81,56 @@ class TutoManager extends Manager
 
     public function update(Tuto $tuto){
 
-       // Modification d'un tuto en BDD
+        $dbh = static::connectDb();
 
+        $id = $tuto->getId();
+        $titre = $tuto->getTitle();
+        $descr = $tuto->getDescription();
+        $dateAt = $tuto->getCreatedAt();
+
+        $sth = $dbh->prepare('Update tutos SET title="'.$titre.'",description="'.$descr.'",createdAt="'.$dateAt.'" WHERE id='.$id);
+        $sth->execute();
+        return $tuto;
     }
 
+    public function delete(Tuto $tuto)
+    {
+        $dbh = static::connectDb();
+
+        $id = $tuto->getId();
+        $sth = $dbh->prepare('delete from tutos where id='.$id);
+        $sth->execute();
+
+        return $tuto;
+    }
+
+    public function findByPage($page)
+    {
+        
+        $dbh = static::connectDb();
 
 
+        $parPage = 5;
+        $offset = ($page * $parPage) - $parPage;
+
+        // Requête
+        $sth = $dbh->prepare('SELECT * FROM tutos'.' OFFSET '.$offset . ' LIMIT 5');
+        $sth->execute();
+        $tutos = [];
+
+        while($row = $sth->fetch(\PDO::FETCH_ASSOC)){
+
+            $tuto = new Tuto();
+            $tuto->setId($row['id']);
+            $tuto->setTitle($row['title']);
+            $tuto->setDescription($row['description']);
+            $tuto->setCreatedAt($row["createdAt"]);
+            $tutos[] = $tuto;
+
+        }
+
+        return $tutos;
 
 
-
-
+    }
 }

@@ -15,7 +15,6 @@ class abstractController
 
         $data = json_encode($content);
 
-        // var_dump($data); die();
 
         echo $data;
     }

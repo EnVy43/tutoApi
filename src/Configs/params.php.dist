@@ -3,7 +3,7 @@
 // Connexion à la base de donnée /////////////////////////////////////////
 
 define('HOST', 'localhost');
-define('DATABASE', 'bugmanager');   // Nom de la BDD
+define('DATABASE', 'tutos');   // Nom de la BDD
 define('LOGIN', 'root');            // Login sur la BDD
 define('MOT_DE_PASSE', '');         // Password sur la BDD
 
