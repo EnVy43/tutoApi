@@ -81,7 +81,6 @@ class tutoController extends abstractController
 
     function findByPage($page)
     {
-        
             $manager = new TutoManager();
             $tutos = $manager->findByPage($page);
             return $this->jsonResponse($tutos, 200);

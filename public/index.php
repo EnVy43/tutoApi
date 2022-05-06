@@ -23,9 +23,18 @@ switch(true) {
     
     case preg_match('#^tutos((\?)|$)#', $uri) && $method == 'GET':
 
-        $controller = new tutoController();
+        if (isset($_GET["page"]) && $_GET["page"] > 0) {
+            $page = $_GET["page"];
 
-        return $controller->index();
+            $controller = new tutoController();
+            return $controller->findByPage($page);
+        }
+        else 
+        {
+            $controller = new tutoController();
+
+            return $controller->index();
+        }
 
         break;
 
@@ -55,24 +64,6 @@ switch(true) {
         
         return $controller->delete($id);
         
-        break;
-
-    case preg_match('#^tutos/pages((\?)|$)#', $uri) && $method == 'GET':
-
-        
-        if (isset($_GET["page"]) && $_GET["page"] > 0) {
-            $page = $_GET["page"];
-
-            $controller = new tutoController();
-            return $controller->findByPage($page);
-        }
-        else 
-        {
-            http_response_code(404);
-    
-            echo json_encode('erreur 404000');
-        }
-    
         break;
         
     default:
